@@ -1,7 +1,7 @@
 package com.echo.modules.ums.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.echo.modules.ums.model.UmsRole;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.echo.modules.ums.model.UmsRole;
  * </p>
  *
  * @author Echo
- * @since 2024-04-16
+ * @since 2024-09-12
  */
 public interface UmsRoleService extends IService<UmsRole> {
 

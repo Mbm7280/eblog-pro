@@ -1,18 +1,12 @@
 package com.echo.modules.ums.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.util.Date;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * <p>
@@ -20,51 +14,45 @@ import java.util.Date;
  * </p>
  *
  * @author Echo
- * @since 2024-04-16
+ * @since 2024-09-12
  */
+@Getter
+@Setter
 @TableName("ums_user")
 @ApiModel(value = "UmsUser对象", description = "")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class UmsUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @ApiModelProperty("主键")
+    private String id;
 
+    @ApiModelProperty("用户名")
     private String userName;
 
+    @ApiModelProperty("密码")
     private String password;
 
+    @ApiModelProperty("图标")
     private String icon;
 
+    @ApiModelProperty("邮箱")
     private String email;
 
-    private String nickName;
-
-    private String note;
-
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
+    @ApiModelProperty("创建人")
     private String createBy;
 
-    // 2024/06/18 20:12:03
-    // 2024-06-18 20:12:03
-    // yyyy-MM-dd HH:mm:ss
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    @ApiModelProperty("创建时间")
+    private Date createTime;
 
+    @ApiModelProperty("修改人")
     private String updateBy;
 
-    @ApiModelProperty(value = "状态 0 存在  1 删除")
+    @ApiModelProperty("修改时间")
+    private Date updateTime;
+
+    @ApiModelProperty("状态")
     private String status;
 
-
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Date loginTime;
 
 }

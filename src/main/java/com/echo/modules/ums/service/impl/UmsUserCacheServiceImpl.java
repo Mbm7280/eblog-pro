@@ -112,7 +112,7 @@ public class UmsUserCacheServiceImpl implements UmsUserCacheService {
      * version：1.0
      */
     @Override
-    public List<UmsResource> getUserResFromCache(Long userId) {
+    public List<UmsResource> getUserResFromCache(String userId) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + userId;
         return (List<UmsResource>) redisService.get(key);
     }
@@ -129,7 +129,7 @@ public class UmsUserCacheServiceImpl implements UmsUserCacheService {
      * version：1.0
      */
     @Override
-    public void setUserResInCache(Long userId, List<UmsResource> resourceList) {
+    public void setUserResInCache(String userId, List<UmsResource> resourceList) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + userId;
         redisService.set(key, resourceList, REDIS_EXPIRE);
     }

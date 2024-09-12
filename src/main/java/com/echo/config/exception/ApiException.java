@@ -4,7 +4,6 @@ import com.echo.config.api.IErrorCode;
 
 /****************************************************
  * 创建人：Echo
- * 创建时间: 2023/10/21 17:31
  * 项目名称: {cli}
  * 文件名称: ApiException
  * 文件描述: [自定义API异常]

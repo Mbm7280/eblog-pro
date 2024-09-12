@@ -1,7 +1,7 @@
 package com.echo.modules.ums.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.echo.modules.ums.model.UmsRoleResourceRelation;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.echo.modules.ums.model.UmsRoleResourceRelation;
  * </p>
  *
  * @author Echo
- * @since 2024-04-16
+ * @since 2024-09-12
  */
 public interface UmsRoleResourceRelationMapper extends BaseMapper<UmsRoleResourceRelation> {
 

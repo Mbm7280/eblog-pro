@@ -1,7 +1,7 @@
 package com.echo.modules.ums.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.echo.modules.ums.model.UmsResource;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * </p>
  *
  * @author Echo
- * @since 2024-04-16
+ * @since 2024-09-12
  */
 public interface UmsResourceMapper extends BaseMapper<UmsResource> {
 
@@ -21,7 +21,6 @@ public interface UmsResourceMapper extends BaseMapper<UmsResource> {
      * @param userId
      * @return
      */
-    List<UmsResource> getResourceList(Long userId);
-
+    List<UmsResource> getResourceList(String userId);
 
 }

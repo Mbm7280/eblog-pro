@@ -1,14 +1,12 @@
 package com.echo.modules.ums.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.Date;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * <p>
@@ -16,7 +14,7 @@ import java.util.Date;
  * </p>
  *
  * @author Echo
- * @since 2024-04-16
+ * @since 2024-09-12
  */
 @Getter
 @Setter
@@ -26,21 +24,24 @@ public class UmsRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @ApiModelProperty("主键")
+    private String id;
 
+    @ApiModelProperty("角色名称")
     private String roleName;
 
+    @ApiModelProperty("角色介绍")
     private String roleDesc;
-
-    private Date createTime;
-
-    private Date updateTime;
 
     private String createBy;
 
+    private Date createTime;
+
     private String updateBy;
 
+    private Date updateTime;
+
+    @ApiModelProperty("状态")
     private String status;
 
 

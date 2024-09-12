@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /****************************************************
  * 创建人：Echo
- * 创建时间: 2023/10/21 17:31
  * 项目名称: {cli}
  * 文件名称: GlobalExceptionHandler
  * 文件描述: [全局异常处理]

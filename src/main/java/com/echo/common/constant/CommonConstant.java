@@ -2,10 +2,9 @@ package com.echo.common.constant;
 
 /****************************************************
  * 创建人：Echo
- * 创建时间: 2023/10/21 17:53
  * 项目名称: {cli}
  * 文件名称: CommonConstant
- * 文件描述: [常量]
+ * 文件描述: [ 常量类 ]
  * version：1.0
  * All rights Reserved, Designed By Echo
  *

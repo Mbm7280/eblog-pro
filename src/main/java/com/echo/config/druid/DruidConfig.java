@@ -14,6 +14,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/****************************************************
+ * 创建人：Echo
+ * 项目名称: {pro-cli}
+ * 文件名称: DruidConfig
+ * 文件描述: [ DruidConfig ]
+ * version：1.0
+ *
+ ********************************************************/
+
 @Configuration
 public class DruidConfig {
 
@@ -23,7 +32,6 @@ public class DruidConfig {
     public DataSource druid() {
         return new DruidDataSource();
     }
-
 
     /**
      * 内置 Servlet 容器时没有web.xml文件，所以使用 Spring Boot 的注册 Servlet 方式

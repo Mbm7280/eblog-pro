@@ -26,12 +26,12 @@ public interface UmsUserCacheService {
     /**
      * 根据 [用户id] 获取缓存后台用户资源列表
      */
-    List<UmsResource> getUserResFromCache(Long userId);
+    List<UmsResource> getUserResFromCache(String userId);
 
     /**
      * 设置后台后台用户资源列表
      */
-    void setUserResInCache(Long userId, List<UmsResource> resourceList);
+    void setUserResInCache(String userId, List<UmsResource> resourceList);
 
     /**
      * 当角色相关资源信息改变时删除相关后台用户缓存

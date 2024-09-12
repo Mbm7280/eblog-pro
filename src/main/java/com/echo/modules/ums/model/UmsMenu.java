@@ -1,12 +1,12 @@
 package com.echo.modules.ums.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.Date;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import java.util.Date;
  * </p>
  *
  * @author Echo
- * @since 2024-04-16
+ * @since 2024-09-12
  */
 @Getter
 @Setter
@@ -24,28 +24,37 @@ public class UmsMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    @ApiModelProperty("主键")
+    private String id;
 
-    private Long parentId;
+    @ApiModelProperty("父级ID")
+    private String parentId;
 
+    @ApiModelProperty("菜单名称")
     private String menuTitle;
 
-    private Integer menuLevel;
-
+    @ApiModelProperty("菜单顺序")
     private Integer menuSort;
 
+    @ApiModelProperty("菜单名称")
     private String menuName;
 
+    @ApiModelProperty("菜单图标")
     private String menuIcon;
 
-    private Date createTime;
-
-    private Date updateTime;
-
+    @ApiModelProperty("创建人")
     private String createBy;
 
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+
+    @ApiModelProperty("修改人")
     private Date updateBy;
 
+    @ApiModelProperty("修改时间")
+    private Date updateTime;
+
+    @ApiModelProperty("状态")
     private String status;
 
 

@@ -1,13 +1,11 @@
 package com.echo.modules.ums.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -15,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author Echo
- * @since 2024-04-16
+ * @since 2024-09-12
  */
 @Getter
 @Setter
@@ -25,12 +23,14 @@ public class UmsRoleMenuRelation implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @ApiModelProperty("主键")
+    private String id;
 
-    private Long roleId;
+    @ApiModelProperty("角色ID")
+    private String roleId;
 
-    private Long menuId;
+    @ApiModelProperty("菜单ID")
+    private String menuId;
 
 
 }
