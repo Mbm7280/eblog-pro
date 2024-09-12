@@ -1,0 +1,111 @@
+server:
+  port: 8081 # 项目对外暴漏的访问端口号
+
+spring:
+  application:
+    name: cli # 项目名称
+  mvc:
+    pathmatch: # 解决swagger3在新版本Springboot中无法展示的问题
+      matching-strategy: ant_path_matcher # 支持ANT样式的路径模式， 具有递归通配符的路径样式 例如：/user/**
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/cli?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password:
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    maxActive: 20
+    maxWait: 60000
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 100
+    validationQuery: SELECT 1 FROM DUAL
+    testOnBorrow: false
+    testOnReturn: false
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    filters: stat,wall
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  redis:
+    host: localhost # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password:  # Redis服务器连接密码（默认为空）
+    timeout: 3000ms # 连接超时时间（毫秒）
+
+  #actuator监控
+management:
+    #  server:
+    #    port: 8081 # 设置监控服务端口,如果没写默认就是服务器的端口
+  endpoints:
+      # 设置端点是否可用 默认只有shutdown可用
+    enabled-by-default: true
+    web:
+        # 设置是否暴露端点 默认只有health和info可见
+      exposure:
+          # 包括所有端点
+        include: "*" # 注意需要添加引号
+          # 排除端点
+        exclude: shutdown
+        #访问地址
+        #base-path: /actuator #默认
+  endpoint:
+    health:
+      show-details: always
+      #可以关闭指定的端点
+    shutdown:
+      enabled: false
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: O5hg6YDxOyO5wZq #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: 'Bearer '  #JWT负载中拿到开头
+redis:
+  database: pro
+  key:
+    admin: 'ums:user'
+    resourceList: 'ums:resourceList'
+  expire:
+    common: 86400 # 24小时
+secure:
+  ignored:
+    urls: #安全路径白名单
+      - /swagger-ui/
+      - /swagger-resources/**
+      - /**/v2/api-docs
+      - /**/*.html
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /favicon.ico
+      - /actuator/**
+      - /druid/**
+      - /ums/umsUser/login
+      - /ums/umsUser/register
+      - /admin/info
+      - /admin/logout
+      - /ums/umsRole/test
+      - /lianxi/findAllUsers
+      - /lianxi/saveUser
+      - /lianxi/updateUser
+      - /lianxi/delUser
+      - /lianxi/selectUserByName
+      - /lianxi/selectUserByNote
+      - /lianxi/selectAllUsersSorted
+      - /lianxi/findAllUsersWithResult
+      - /lianxi/findAllUsersThrowException
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml # 指向 /resources/mapper下的  mapper.xml 文件
+  global-config:
+    db-config:
+      id-type: auto   # 主键生成策略 自动增长
+  configuration:
+    auto-mapping-behavior: partial # java实体类属性和数据库字段是否自动映射  partial作用：对手动映射指定的字段之外的字段进行自动映射
+    map-underscore-to-camel-case: true # java实体类属性的驼峰命名规则转换为数据库字段的下划线命名规则 true作用：开启
