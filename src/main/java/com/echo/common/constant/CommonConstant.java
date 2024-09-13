@@ -55,4 +55,8 @@ public interface CommonConstant {
 
     String STR_ONE = "1";
 
+    String DELETED = "DELETED";
+
+
+
 }

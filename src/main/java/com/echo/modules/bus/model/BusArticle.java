@@ -34,7 +34,7 @@ public class BusArticle implements Serializable {
     private String articleTitle;
 
     @ApiModelProperty("文章分类ID")
-    private Integer categoryId;
+    private String categoryId;
 
     @ApiModelProperty("文章缩略图")
     private String articleCover;

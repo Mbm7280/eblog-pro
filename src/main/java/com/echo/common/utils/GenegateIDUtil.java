@@ -54,8 +54,26 @@ public class GenegateIDUtil {
         return prefix + uuidStr + currentStr + randomNumber;
     }
 
+    public static String generateArticleID () {
+        String currentStr = String.valueOf(DateUtil.current());
+        String prefix = "ARTICLE";
+        Random random = new Random();
+        String randomNumber = String.format("%06d", random.nextInt(999999) + 100000);
+        String uuidStr = UUID.randomUUID().toString();
+        return prefix + uuidStr + currentStr + randomNumber;
+    }
+
+    public static String generateACID () {
+        String currentStr = String.valueOf(DateUtil.current());
+        String prefix = "ARTICLE&CATEGORY";
+        Random random = new Random();
+        String randomNumber = String.format("%06d", random.nextInt(999999) + 100000);
+        String uuidStr = UUID.randomUUID().toString();
+        return prefix + uuidStr + currentStr + randomNumber;
+    }
+
     public static void main(String[] args) {
-        String roleID = generateURID();
+        String roleID = generateACID();
         System.out.println(roleID);
     }
 

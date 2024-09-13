@@ -66,6 +66,10 @@ public enum ResultCode implements IErrorCode {
 
     THE_USER_NEED_ALLOW_RESOURCES(1021, "请为该用户分配权限后重试！"),
 
+    THE_ARTICLE_IS_NOT_EXIST(1040, "文章不存在，请稍后再试！"),
+
+
+
 
     ;
 
