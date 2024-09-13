@@ -18,7 +18,7 @@ public enum ResultCode implements IErrorCode {
     RETURN_VALUE_IS_NULL(990, "返回值为空，请稍后重试"),
 
 
-    THE_USER_HAS_REGISTERED(1001, "该用户已注册！"),
+    THE_USERNAME_HAS_REGISTERED(1001, "该用户名已注册！"),
 
 
     THE_RESOURCE_CATEGORY_QUERY_FAILED(1002, "获取所有资源分类失败，请稍后重试！"),
@@ -63,6 +63,8 @@ public enum ResultCode implements IErrorCode {
     THE_USER_DELETE_FAILED(1019, "删除用户失败，请稍后重试！"),
 
     THE_USER_UPDATE_FAILED(1020, "更新用户信息失败，请稍后重试！"),
+
+    THE_USER_NEED_ALLOW_RESOURCES(1021, "请为该用户分配权限后重试！"),
 
 
     ;

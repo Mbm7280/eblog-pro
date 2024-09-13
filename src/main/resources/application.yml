@@ -85,20 +85,12 @@ secure:
       - /favicon.ico
       - /actuator/**
       - /druid/**
-      - /ums/umsUser/login
-      - /ums/umsUser/register
+      - /admin/umsUser/login
+      - /admin/umsUser/register
       - /admin/info
       - /admin/logout
       - /ums/umsRole/test
-      - /lianxi/findAllUsers
-      - /lianxi/saveUser
-      - /lianxi/updateUser
-      - /lianxi/delUser
-      - /lianxi/selectUserByName
-      - /lianxi/selectUserByNote
-      - /lianxi/selectAllUsersSorted
-      - /lianxi/findAllUsersWithResult
-      - /lianxi/findAllUsersThrowException
+
 
 
 mybatis-plus:

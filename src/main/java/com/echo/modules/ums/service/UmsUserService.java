@@ -1,5 +1,9 @@
 package com.echo.modules.ums.service;
 
+import com.echo.config.api.Result;
+import com.echo.modules.ums.dto.req.LoginReqDTO;
+import com.echo.modules.ums.dto.req.RegisterReqDTO;
+import com.echo.modules.ums.dto.res.LoginResDTO;
 import com.echo.modules.ums.model.UmsResource;
 import com.echo.modules.ums.model.UmsUser;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -42,6 +46,22 @@ public interface UmsUserService extends IService<UmsUser> {
      */
     public UserDetails loadUserByUsername(String username);
 
+
+    /**
+     * 用户注册
+     *
+     * @param registerReqDTO
+     * @return
+     */
+    Result<UmsUser> register(RegisterReqDTO registerReqDTO);
+
+    /**
+     * 用户登录
+     *
+     * @param loginReqDTO
+     * @return
+     */
+    Result<LoginResDTO> login(LoginReqDTO loginReqDTO);
 
 
 }

@@ -1,6 +1,18 @@
 package com.echo.modules.ums.controller;
 
 
+import com.echo.config.annos.WebLogAnno;
+import com.echo.config.api.Result;
+import com.echo.modules.ums.dto.req.LoginReqDTO;
+import com.echo.modules.ums.dto.req.RegisterReqDTO;
+import com.echo.modules.ums.dto.res.LoginResDTO;
+import com.echo.modules.ums.model.UmsUser;
+import com.echo.modules.ums.service.UmsUserService;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +26,24 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2024-09-12
  */
 @RestController
-@RequestMapping("/ums/umsUser")
+@RequestMapping("admin/umsUser")
 public class UmsUserController {
+
+    @Autowired
+    private UmsUserService userService;
+
+    @ApiOperation(value = "用户注册")
+    @PostMapping(value = "/register")
+    public Result<UmsUser> register(@Validated @RequestBody RegisterReqDTO registerReqDTO) {
+        return userService.register(registerReqDTO);
+    }
+
+
+    @ApiOperation(value = "登录")
+    @PostMapping(value = "/login")
+    public Result<LoginResDTO> login(@Validated @RequestBody LoginReqDTO loginReqDTO) {
+        return userService.login(loginReqDTO);
+    }
 
 }
 

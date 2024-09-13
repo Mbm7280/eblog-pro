@@ -15,4 +15,24 @@
         <result column="status" property="status" />
     </resultMap>
 
+    <select id="getResourceList" resultMap="BaseResultMap">
+        SELECT
+            ur.id id,
+            ur.res_name resName,
+            ur.res_url resUrl,
+            ur.res_desc resDesc,
+            ur.create_time createTime
+        FROM
+            ums_user_role_relation urr
+                LEFT JOIN ums_role r ON urr.role_id = r.id
+                LEFT JOIN ums_role_resource_relation rrr ON r.id = rrr.role_id
+                LEFT JOIN ums_resource ur ON ur.id = rrr.resource_id
+        WHERE
+            urr.user_id = #{userId}
+
+          AND ur.id IS NOT NULL
+        GROUP BY
+            ur.id
+    </select>
+
 </mapper>
