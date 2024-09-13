@@ -5,17 +5,18 @@ import com.echo.config.annos.WebLogAnno;
 import com.echo.config.api.Result;
 import com.echo.modules.ums.dto.req.LoginReqDTO;
 import com.echo.modules.ums.dto.req.RegisterReqDTO;
+import com.echo.modules.ums.dto.res.GetUserInfoResDTO;
 import com.echo.modules.ums.dto.res.LoginResDTO;
 import com.echo.modules.ums.model.UmsUser;
 import com.echo.modules.ums.service.UmsUserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.security.Principal;
+
+import static com.echo.config.api.ResultCode.THE_AUTHORIZED_FAILED;
 
 /**
  * <p>
@@ -43,6 +44,15 @@ public class UmsUserController {
     @PostMapping(value = "/login")
     public Result<LoginResDTO> login(@Validated @RequestBody LoginReqDTO loginReqDTO) {
         return userService.login(loginReqDTO);
+    }
+
+    @ApiOperation(value = "获取当前登录用户信息")
+    @GetMapping(value = "/getUserInfo")
+    public Result<GetUserInfoResDTO> getUserInfo(Principal principal) {
+        if (principal == null) {
+            return Result.failed(THE_AUTHORIZED_FAILED);
+        }
+        return userService.getUserInfo(principal);
     }
 
 }

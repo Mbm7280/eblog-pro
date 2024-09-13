@@ -14,8 +14,11 @@ import com.echo.config.exception.Asserts;
 import com.echo.dto.AdminUserDetails;
 import com.echo.modules.ums.dto.req.LoginReqDTO;
 import com.echo.modules.ums.dto.req.RegisterReqDTO;
+import com.echo.modules.ums.dto.res.GetUserInfoResDTO;
 import com.echo.modules.ums.dto.res.LoginResDTO;
+import com.echo.modules.ums.mapper.UmsMenuMapper;
 import com.echo.modules.ums.mapper.UmsResourceMapper;
+import com.echo.modules.ums.mapper.UmsRoleMapper;
 import com.echo.modules.ums.model.UmsResource;
 import com.echo.modules.ums.model.UmsUser;
 import com.echo.modules.ums.mapper.UmsUserMapper;
@@ -37,13 +40,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
 import static com.echo.common.constant.CommonConstant.STR_ZERO;
 import static com.echo.common.constant.CommonConstant.ZERO;
-import static com.echo.config.api.ResultCode.THE_USERNAME_HAS_REGISTERED;
-import static com.echo.config.api.ResultCode.THE_USER_NEED_ALLOW_RESOURCES;
+import static com.echo.config.api.ResultCode.*;
 
 /**
  * <p>
@@ -70,6 +73,12 @@ public class UmsUserServiceImpl extends ServiceImpl<UmsUserMapper, UmsUser> impl
 
     @Autowired
     private UmsUserRoleRelationService userRoleRelationService;
+
+    @Autowired
+    private UmsRoleMapper roleMapper;
+
+    @Autowired
+    private UmsMenuMapper menuMapper;
 
     /**
      * 类路径：com.echo.modules.ums.service.impl
@@ -237,6 +246,26 @@ public class UmsUserServiceImpl extends ServiceImpl<UmsUserMapper, UmsUser> impl
         loginResDTO.setTokenHead(tokenHead);
 
         return Result.success(loginResDTO);
+    }
+
+    @Override
+    public Result<GetUserInfoResDTO> getUserInfo(Principal principal) {
+        GetUserInfoResDTO getUserInfoResDTO = new GetUserInfoResDTO();
+
+        UmsUser umsUser = getUserInfoByUsername(principal.getName());
+
+        if (ObjUtil.isEmpty(umsUser)) {
+            return Result.failed(THE_USER_QUERY_FAILED);
+        }
+
+        getUserInfoResDTO = getUserInfoResDTO.builder()
+                .userName(umsUser.getUserName())
+                .icon(umsUser.getIcon())
+//                .roleList(roleMapper.getRoleListByUserId(umsUser.getId()))
+//                .menuList(menuMapper.getMenuListByUserId(umsUser.getId()))
+                .build();
+
+        return Result.success(getUserInfoResDTO);
     }
 
 

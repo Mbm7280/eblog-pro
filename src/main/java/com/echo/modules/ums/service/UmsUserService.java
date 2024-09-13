@@ -3,12 +3,14 @@ package com.echo.modules.ums.service;
 import com.echo.config.api.Result;
 import com.echo.modules.ums.dto.req.LoginReqDTO;
 import com.echo.modules.ums.dto.req.RegisterReqDTO;
+import com.echo.modules.ums.dto.res.GetUserInfoResDTO;
 import com.echo.modules.ums.dto.res.LoginResDTO;
 import com.echo.modules.ums.model.UmsResource;
 import com.echo.modules.ums.model.UmsUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
 import java.util.List;
 
 /****************************************************
@@ -63,5 +65,11 @@ public interface UmsUserService extends IService<UmsUser> {
      */
     Result<LoginResDTO> login(LoginReqDTO loginReqDTO);
 
-
+    /**
+     * 获取当前登录用户信息
+     *
+     * @param principal
+     * @return
+     */
+    Result<GetUserInfoResDTO> getUserInfo(Principal principal);
 }
