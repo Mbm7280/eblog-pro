@@ -4,11 +4,16 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.echo.common.utils.GenegateIDUtil;
 import com.echo.config.api.Result;
+import com.echo.dto.ResGetArticleByArticleIDDTO;
+import com.echo.modules.bus.mapper.BusCategoryMapper;
 import com.echo.modules.bus.model.BusArticle;
 import com.echo.modules.bus.mapper.BusArticleMapper;
+import com.echo.modules.bus.model.BusCategory;
 import com.echo.modules.bus.service.BusArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +38,13 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
     @Autowired
     private BusArticleMapper busArticleMapper;
 
+    @Autowired
+    private BusCategoryMapper busCategoryMapper;
+
     @Override
     public Result<List<BusArticle>> getAllArticleList(String articleType) {
         LambdaQueryWrapper<BusArticle> queryWrapper = new LambdaQueryWrapper<BusArticle>();
+        queryWrapper.ne(BusArticle::getArticleStatus, DELETED);
         if (StrUtil.isNotBlank(articleType)) {
             queryWrapper.eq(BusArticle::getArticleType, articleType);
         }
@@ -52,5 +61,34 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
         busArticle.setArticleStatus(DELETED);
         busArticle.setUpdateTime(new Date());
         return busArticleMapper.updateById(busArticle) > ZERO ? Result.success() : Result.failed();
+    }
+
+    @Override
+    public Result addOrEditArticle(BusArticle busArticle) {
+        if(StrUtil.isNotBlank(busArticle.getId())) {
+            busArticle.setUpdateTime(new Date());
+            busArticleMapper.updateById(busArticle);
+        } else {
+            String articleID = GenegateIDUtil.generateArticleID();
+            busArticle.setId(articleID);
+            busArticle.setCreateTime(new Date());
+            busArticle.setUpdateTime(new Date());
+            save(busArticle);
+        }
+        return Result.success();
+    }
+
+    @Override
+    public Result<ResGetArticleByArticleIDDTO> getArticleByArticleID(String articleID) {
+        ResGetArticleByArticleIDDTO result = new ResGetArticleByArticleIDDTO();
+        LambdaQueryWrapper<BusArticle> queryWrapper = new LambdaQueryWrapper<BusArticle>();
+        queryWrapper.ne(BusArticle::getArticleStatus, DELETED);
+        queryWrapper.eq(BusArticle::getId, articleID);
+        BusArticle busArticle = busArticleMapper.selectOne(queryWrapper);
+        BeanUtils.copyProperties(busArticle,result);
+        String categoryId = busArticle.getCategoryId();
+        BusCategory busCategory = busCategoryMapper.selectById(categoryId);
+        result.setCategoryName(busCategory.getCategoryName());
+        return Result.success(result);
     }
 }

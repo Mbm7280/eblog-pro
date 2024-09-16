@@ -2,6 +2,7 @@ package com.echo.modules.bus.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.echo.config.api.Result;
 import com.echo.modules.bus.model.BusCategory;
 import com.echo.modules.bus.mapper.BusCategoryMapper;
@@ -37,4 +38,14 @@ public class BusCategoryServiceImpl extends ServiceImpl<BusCategoryMapper, BusCa
         List<BusCategory> busCategories = list();
         return Result.success(busCategories);
     }
+
+    @Override
+    public Result<List<BusCategory>> getAllCategoryListByCateName(String categoryName) {
+        QueryWrapper<BusCategory> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("category_name", categoryName);
+        List<BusCategory> busCategories = busCategoryMapper.selectList(queryWrapper);
+        return Result.success(busCategories);
+    }
+
+
 }

@@ -37,5 +37,11 @@ public class BusCategoryController {
         return busCategoryService.getAllCategoryList();
     }
 
+    @ApiOperation(value = "根据分类名称获取所有分类信息")
+    @GetMapping(value = "/getAllCategoryListByCateName")
+    public Result<List<BusCategory>> getAllCategoryListByCateName(@RequestParam String categoryName) {
+        return busCategoryService.getAllCategoryListByCateName(categoryName);
+    }
+
 }
 

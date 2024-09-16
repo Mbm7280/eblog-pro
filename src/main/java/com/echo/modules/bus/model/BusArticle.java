@@ -67,4 +67,5 @@ public class BusArticle implements Serializable {
     private Date updateTime;
 
 
+
 }

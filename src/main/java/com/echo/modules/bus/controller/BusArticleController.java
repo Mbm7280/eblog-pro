@@ -2,6 +2,7 @@ package com.echo.modules.bus.controller;
 
 
 import com.echo.config.api.Result;
+import com.echo.dto.ResGetArticleByArticleIDDTO;
 import com.echo.modules.bus.model.BusArticle;
 import com.echo.modules.bus.service.BusArticleService;
 import com.echo.modules.ums.dto.req.RegisterReqDTO;
@@ -39,6 +40,21 @@ public class BusArticleController {
     public Result delArticle(@PathVariable String articleID) {
         return busArticleService.delArticle(articleID);
     }
+
+
+    @ApiOperation(value = "新增文章")
+    @PostMapping(value = "/addOrEditArticle")
+    public Result addOrEditArticle(@RequestBody BusArticle busArticle) {
+        return busArticleService.addOrEditArticle(busArticle);
+    }
+
+
+    @ApiOperation(value = "根据 articleId 获取对应的文章信息")
+    @GetMapping(value = "/getArticleByArticleID")
+    public Result<ResGetArticleByArticleIDDTO> getArticleByArticleID(@RequestParam String articleID) {
+        return busArticleService.getArticleByArticleID(articleID);
+    }
+
 
 
 }
