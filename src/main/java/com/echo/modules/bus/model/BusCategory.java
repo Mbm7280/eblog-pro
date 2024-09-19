@@ -29,6 +29,9 @@ public class BusCategory implements Serializable {
     @ApiModelProperty("分类名")
     private String categoryName;
 
+    @ApiModelProperty("分类状态")
+    private String cateStatus;
+
     @ApiModelProperty("创建人")
     private String createBy;
 

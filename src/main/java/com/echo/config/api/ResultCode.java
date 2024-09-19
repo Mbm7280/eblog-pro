@@ -68,6 +68,8 @@ public enum ResultCode implements IErrorCode {
 
     THE_ARTICLE_IS_NOT_EXIST(1040, "文章不存在，请稍后再试！"),
 
+    THE_CATEGORY_IS_NOT_EXIST(1041, "分类不存在，请稍后再试！"),
+
 
 
 

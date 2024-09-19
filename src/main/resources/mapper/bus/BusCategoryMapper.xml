@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.echo.modules.bus.model.BusCategory">
         <id column="id" property="id" />
         <result column="category_name" property="categoryName" />
+        <result column="cate_status" property="cateStatus" />
         <result column="create_by" property="createBy" />
         <result column="create_time" property="createTime" />
         <result column="update_by" property="updateBy" />
