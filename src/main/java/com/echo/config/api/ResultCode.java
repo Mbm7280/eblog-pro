@@ -70,6 +70,8 @@ public enum ResultCode implements IErrorCode {
 
     THE_CATEGORY_IS_NOT_EXIST(1041, "分类不存在，请稍后再试！"),
 
+    THE_FRIENDLINK_IS_NOT_EXIST(1042, "友链不存在，请稍后再试！"),
+
 
 
 

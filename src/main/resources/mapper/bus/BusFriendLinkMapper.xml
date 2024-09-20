@@ -8,7 +8,8 @@
         <result column="fir_link_name" property="firLinkName" />
         <result column="fri_link_avatar" property="friLinkAvatar" />
         <result column="fri_link_address" property="friLinkAddress" />
-        <result column="fir_link_intro" property="firLinkIntro" />
+        <result column="fri_link_intro" property="friLinkIntro" />
+        <result column="fri_link_status" property="firLinkStatus" />
         <result column="create_by" property="createBy" />
         <result column="create_time" property="createTime" />
         <result column="update_by" property="updateBy" />

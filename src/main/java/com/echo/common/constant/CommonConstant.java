@@ -57,6 +57,8 @@ public interface CommonConstant {
 
     String DELETED = "DELETED";
 
+    String EXIST = "EXIST";
+
 
 
 }

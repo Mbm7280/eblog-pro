@@ -37,7 +37,10 @@ public class BusFriendLink implements Serializable {
     private String friLinkAddress;
 
     @ApiModelProperty("友链介绍")
-    private String firLinkIntro;
+    private String friLinkIntro;
+
+    @ApiModelProperty("友链状态")
+    private String friLinkStatus;
 
     @ApiModelProperty("创建人")
     private String createBy;
