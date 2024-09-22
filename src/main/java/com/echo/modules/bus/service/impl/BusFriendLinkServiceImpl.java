@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echo.common.utils.GenegateIDUtil;
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
-import com.echo.modules.bus.model.BusCategory;
 import com.echo.modules.bus.model.BusFriendLink;
 import com.echo.modules.bus.mapper.BusFriendLinkMapper;
 import com.echo.modules.bus.service.BusFriendLinkService;
@@ -22,12 +21,11 @@ import java.util.List;
 
 import static com.echo.common.constant.CommonConstant.DELETED;
 import static com.echo.common.constant.CommonConstant.EXIST;
-import static com.echo.config.api.ResultCode.THE_CATEGORY_IS_NOT_EXIST;
 import static com.echo.config.api.ResultCode.THE_FRIENDLINK_IS_NOT_EXIST;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Echo
@@ -50,7 +48,7 @@ public class BusFriendLinkServiceImpl extends ServiceImpl<BusFriendLinkMapper, B
             busFriendLinkLambdaQueryWrapper.like(BusFriendLink::getFirLinkName, friLinkName);
         }
 
-        Page<BusFriendLink> busFriendLinkPage = page (page, busFriendLinkLambdaQueryWrapper);
+        Page<BusFriendLink> busFriendLinkPage = page(page, busFriendLinkLambdaQueryWrapper);
 
         PageInfo<BusFriendLink> busFriendLinkPageInfo = PageInfo.restPage(busFriendLinkPage);
 
@@ -74,9 +72,9 @@ public class BusFriendLinkServiceImpl extends ServiceImpl<BusFriendLinkMapper, B
     }
 
     @Override
-    public Result delFriLinkByID(String friLinkID) {
+    public Result delFriLink(String friLinkID) {
         BusFriendLink busFriendLink = getOne(new LambdaQueryWrapper<BusFriendLink>().eq(BusFriendLink::getId, friLinkID));
-        if(ObjUtil.isEmpty(busFriendLink)) {
+        if (ObjUtil.isEmpty(busFriendLink)) {
             return Result.failed(THE_FRIENDLINK_IS_NOT_EXIST);
         }
         busFriendLink.setUpdateTime(new Date());
@@ -86,9 +84,9 @@ public class BusFriendLinkServiceImpl extends ServiceImpl<BusFriendLinkMapper, B
     }
 
     @Override
-    public Result delFriLinkBatchByIDS(List<String> friLinkIDList) {
+    public Result delFriLinkBatch(List<String> friLinkIDList) {
         List<BusFriendLink> busFriendLinkList = busFriendLinkMapper.selectBatchIds(friLinkIDList);
-        if(CollUtil.isNotEmpty(busFriendLinkList)) {
+        if (CollUtil.isNotEmpty(busFriendLinkList)) {
             busFriendLinkList.forEach(busFriendLink -> {
                 busFriendLink.setUpdateTime(new Date());
                 busFriendLink.setFriLinkStatus(DELETED);

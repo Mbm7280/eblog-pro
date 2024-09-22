@@ -3,9 +3,7 @@ package com.echo.modules.ums.controller;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
-import com.echo.modules.ums.model.UmsResource;
 import com.echo.modules.ums.model.UmsRole;
-import com.echo.modules.ums.service.UmsResourceService;
 import com.echo.modules.ums.service.UmsRoleService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Echo
@@ -31,9 +29,9 @@ public class UmsRoleController {
     @ApiOperation(value = "分页获取所有角色信息")
     @GetMapping(value = "/getAllPageRoleList")
     public Result<PageInfo<UmsRole>> getAllPageRoleList(@RequestParam(required = false) String roleName,
-                                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                                                @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        return umsRoleService.getAllPageRoleList(roleName,pageNum,pageSize);
+                                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return umsRoleService.getAllPageRoleList(roleName, pageNum, pageSize);
     }
 
     @ApiOperation(value = "新增或修改角色")

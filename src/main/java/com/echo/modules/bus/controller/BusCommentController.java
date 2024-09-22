@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Echo
@@ -29,9 +29,9 @@ public class BusCommentController {
     @ApiOperation(value = "分页获取所有评论信息")
     @GetMapping(value = "/getAllPageCommentList")
     public Result<PageInfo<BusComment>> getAllPageCommentList(@RequestParam(required = false) String commentContent,
-                                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        return busCommentService.getAllPageCommentList(commentContent,pageNum,pageSize);
+                                                              @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                              @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return busCommentService.getAllPageCommentList(commentContent, pageNum, pageSize);
     }
 
     @ApiOperation(value = "新增或修改资源")

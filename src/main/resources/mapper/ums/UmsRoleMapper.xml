@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.echo.modules.ums.model.UmsRole">
-        <id column="id" property="id" />
-        <result column="role_name" property="roleName" />
-        <result column="role_desc" property="roleDesc" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
-        <result column="update_by" property="updateBy" />
-        <result column="update_time" property="updateTime" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_desc" property="roleDesc"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
     </resultMap>
 
 </mapper>

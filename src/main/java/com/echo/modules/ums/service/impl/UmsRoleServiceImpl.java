@@ -25,7 +25,7 @@ import static com.echo.config.api.ResultCode.THE_ROLE_QUERY_FAILED;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Echo
@@ -48,7 +48,7 @@ public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> impl
             umsRoleLambdaQueryWrapper.like(UmsRole::getRoleName, roleName);
         }
 
-        Page<UmsRole> umsRolePage = page (page, umsRoleLambdaQueryWrapper);
+        Page<UmsRole> umsRolePage = page(page, umsRoleLambdaQueryWrapper);
 
         PageInfo<UmsRole> umsRolePageInfo = PageInfo.restPage(umsRolePage);
 
@@ -74,7 +74,7 @@ public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> impl
     @Override
     public Result delRole(String roleID) {
         UmsRole umsRole = getOne(new LambdaQueryWrapper<UmsRole>().eq(UmsRole::getId, roleID));
-        if(ObjUtil.isEmpty(umsRole)) {
+        if (ObjUtil.isEmpty(umsRole)) {
             return Result.failed(THE_ROLE_QUERY_FAILED);
         }
         umsRole.setUpdateTime(new Date());
@@ -86,7 +86,7 @@ public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> impl
     @Override
     public Result delRoleBatch(List<String> roleIDList) {
         List<UmsRole> umsRoleList = umsRoleMapper.selectBatchIds(roleIDList);
-        if(CollUtil.isNotEmpty(umsRoleList)) {
+        if (CollUtil.isNotEmpty(umsRoleList)) {
             umsRoleList.forEach(umsRole -> {
                 umsRole.setUpdateTime(new Date());
                 umsRole.setStatus(DELETED);

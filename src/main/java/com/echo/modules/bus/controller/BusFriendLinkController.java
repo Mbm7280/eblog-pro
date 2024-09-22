@@ -3,7 +3,6 @@ package com.echo.modules.bus.controller;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
-import com.echo.modules.bus.model.BusCategory;
 import com.echo.modules.bus.model.BusFriendLink;
 import com.echo.modules.bus.service.BusFriendLinkService;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Echo
@@ -33,7 +32,7 @@ public class BusFriendLinkController {
     public Result<PageInfo<BusFriendLink>> getAllPageFriLinkList(@RequestParam(required = false) String friLinkName,
                                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                                  @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        return busFriendLinkService.getAllPageFriLinkList(friLinkName,pageNum,pageSize);
+        return busFriendLinkService.getAllPageFriLinkList(friLinkName, pageNum, pageSize);
     }
 
     @ApiOperation(value = "新增或修改分类")
@@ -43,15 +42,15 @@ public class BusFriendLinkController {
     }
 
     @ApiOperation(value = "删除友链")
-    @DeleteMapping(value = "/delFriLinkByID/{friLinkID}")
-    public Result delFriLinkByID(@PathVariable String friLinkID) {
-        return busFriendLinkService.delFriLinkByID(friLinkID);
+    @DeleteMapping(value = "/delFriLink/{friLinkID}")
+    public Result delFriLink(@PathVariable String friLinkID) {
+        return busFriendLinkService.delFriLink(friLinkID);
     }
 
     @ApiOperation(value = "批量删除友链")
-    @DeleteMapping(value = "/delFriLinkBatchByIDS")
-    public Result delFriLinkBatchByIDS(@RequestBody List<String> friLinkIDList) {
-        return busFriendLinkService.delFriLinkBatchByIDS(friLinkIDList);
+    @DeleteMapping(value = "/delFriLinkBatch")
+    public Result delFriLinkBatch(@RequestBody List<String> friLinkIDList) {
+        return busFriendLinkService.delFriLinkBatch(friLinkIDList);
     }
 
 }

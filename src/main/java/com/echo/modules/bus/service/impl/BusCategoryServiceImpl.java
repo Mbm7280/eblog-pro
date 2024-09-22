@@ -13,7 +13,6 @@ import com.echo.modules.bus.model.BusCategory;
 import com.echo.modules.bus.mapper.BusCategoryMapper;
 import com.echo.modules.bus.service.BusCategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.echo.modules.ums.model.UmsUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ import static com.echo.config.api.ResultCode.THE_CATEGORY_IS_NOT_EXIST;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Echo
@@ -59,7 +58,7 @@ public class BusCategoryServiceImpl extends ServiceImpl<BusCategoryMapper, BusCa
     }
 
     @Override
-    public Result<PageInfo<BusCategory>> getAllPageCategoryList(String cateName, Integer pageNum,Integer pageSize) {
+    public Result<PageInfo<BusCategory>> getAllPageCategoryList(String cateName, Integer pageNum, Integer pageSize) {
         Page<BusCategory> page = new Page<>(pageNum, pageSize);
 
         LambdaQueryWrapper<BusCategory> busCategoryLambdaQueryWrapper = new LambdaQueryWrapper<BusCategory>();
@@ -69,7 +68,7 @@ public class BusCategoryServiceImpl extends ServiceImpl<BusCategoryMapper, BusCa
             busCategoryLambdaQueryWrapper.like(BusCategory::getCategoryName, cateName);
         }
 
-        Page<BusCategory> busCategoryPage = page (page, busCategoryLambdaQueryWrapper);
+        Page<BusCategory> busCategoryPage = page(page, busCategoryLambdaQueryWrapper);
 
         PageInfo<BusCategory> busCategoryPageInfo = PageInfo.restPage(busCategoryPage);
 
@@ -92,9 +91,9 @@ public class BusCategoryServiceImpl extends ServiceImpl<BusCategoryMapper, BusCa
     }
 
     @Override
-    public Result deleteCategoryByCateID(String cateID) {
+    public Result delCategory(String cateID) {
         BusCategory busCategory = getOne(new LambdaQueryWrapper<BusCategory>().eq(BusCategory::getId, cateID));
-        if(ObjUtil.isEmpty(busCategory)) {
+        if (ObjUtil.isEmpty(busCategory)) {
             return Result.failed(THE_CATEGORY_IS_NOT_EXIST);
         }
         busCategory.setUpdateTime(new Date());
@@ -104,9 +103,9 @@ public class BusCategoryServiceImpl extends ServiceImpl<BusCategoryMapper, BusCa
     }
 
     @Override
-    public Result delCateBatchByCateID(List<String> cateIDList) {
+    public Result delCategoryBatch(List<String> cateIDList) {
         List<BusCategory> busCategoryList = busCategoryMapper.selectBatchIds(cateIDList);
-        if(CollUtil.isNotEmpty(busCategoryList)) {
+        if (CollUtil.isNotEmpty(busCategoryList)) {
             busCategoryList.forEach(busCategory -> {
                 busCategory.setUpdateTime(new Date());
                 busCategory.setCateStatus(DELETED);

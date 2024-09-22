@@ -1,8 +1,10 @@
 package com.echo.modules.bus.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -10,7 +12,7 @@ import lombok.Setter;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Echo
@@ -31,7 +33,7 @@ public class BusComment implements Serializable {
     private String userId;
 
     @ApiModelProperty("文章ID")
-    private String acticleId;
+    private String articleId;
 
     @ApiModelProperty("评论内容")
     private String commentContent;

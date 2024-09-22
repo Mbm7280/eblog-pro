@@ -2,7 +2,6 @@ package com.echo.modules.bus.service;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
-import com.echo.dto.GetAllPageCategoryListDTO;
 import com.echo.modules.bus.model.BusCategory;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +12,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author Echo
@@ -32,8 +31,8 @@ public interface BusCategoryService extends IService<BusCategory> {
 
     Result addOrEditCategory(@RequestBody BusCategory busCategory);
 
-    Result deleteCategoryByCateID(@PathVariable String cateID);
+    Result delCategory(@PathVariable String cateID);
 
-    Result delCateBatchByCateID(@RequestBody List<String> cateIDList);
+    Result delCategoryBatch(@RequestBody List<String> cateIDList);
 
 }

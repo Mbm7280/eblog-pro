@@ -25,7 +25,7 @@ import static com.echo.config.api.ResultCode.THE_COMMENT_QUERY_FAILED;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Echo
@@ -48,7 +48,7 @@ public class BusCommentServiceImpl extends ServiceImpl<BusCommentMapper, BusComm
             busCommentLambdaQueryWrapper.like(BusComment::getCommentContent, commentContent);
         }
 
-        Page<BusComment> busCommentPage = page (page, busCommentLambdaQueryWrapper);
+        Page<BusComment> busCommentPage = page(page, busCommentLambdaQueryWrapper);
 
         PageInfo<BusComment> busCommentPageInfo = PageInfo.restPage(busCommentPage);
 
@@ -74,7 +74,7 @@ public class BusCommentServiceImpl extends ServiceImpl<BusCommentMapper, BusComm
     @Override
     public Result delComment(String commentID) {
         BusComment busComment = getOne(new LambdaQueryWrapper<BusComment>().eq(BusComment::getId, commentID));
-        if(ObjUtil.isEmpty(busComment)) {
+        if (ObjUtil.isEmpty(busComment)) {
             return Result.failed(THE_COMMENT_QUERY_FAILED);
         }
         busComment.setUpdateTime(new Date());
@@ -86,7 +86,7 @@ public class BusCommentServiceImpl extends ServiceImpl<BusCommentMapper, BusComm
     @Override
     public Result delCommentBatch(List<String> commentIDList) {
         List<BusComment> busCommentList = busCommentMapper.selectBatchIds(commentIDList);
-        if(CollUtil.isNotEmpty(busCommentList)) {
+        if (CollUtil.isNotEmpty(busCommentList)) {
             busCommentList.forEach(busComment -> {
                 busComment.setUpdateTime(new Date());
                 busComment.setStatus(DELETED);
