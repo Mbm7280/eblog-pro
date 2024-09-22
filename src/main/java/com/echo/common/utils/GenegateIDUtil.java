@@ -81,8 +81,17 @@ public class GenegateIDUtil {
         return prefix + uuidStr + currentStr + randomNumber;
     }
 
+    public static String generateCommentID () {
+        String currentStr = String.valueOf(DateUtil.current());
+        String prefix = "COMMENT";
+        Random random = new Random();
+        String randomNumber = String.format("%06d", random.nextInt(999999) + 100000);
+        String uuidStr = UUID.randomUUID().toString();
+        return prefix + uuidStr + currentStr + randomNumber;
+    }
+
     public static void main(String[] args) {
-        String roleID = generateResourceID();
+        String roleID = generateCommentID();
         System.out.println(roleID);
     }
 

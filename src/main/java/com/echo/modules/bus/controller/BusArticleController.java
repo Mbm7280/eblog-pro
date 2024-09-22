@@ -1,9 +1,11 @@
 package com.echo.modules.bus.controller;
 
 
+import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
 import com.echo.dto.ResGetArticleByArticleIDDTO;
 import com.echo.modules.bus.model.BusArticle;
+import com.echo.modules.bus.model.BusComment;
 import com.echo.modules.bus.service.BusArticleService;
 import com.echo.modules.ums.dto.req.RegisterReqDTO;
 import com.echo.modules.ums.model.UmsUser;
@@ -35,6 +37,15 @@ public class BusArticleController {
         return busArticleService.getAllArticleList(articleType);
     }
 
+    @ApiOperation(value = "分页获取获取所有文章")
+    @GetMapping(value = "/getAllPageArticleList")
+    public Result<PageInfo<BusArticle>> getAllPageArticleList(@RequestParam(required = false) String articleTitle,
+                                                              @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                              @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return busArticleService.getAllPageArticleList(articleTitle,pageNum,pageSize);
+    }
+
+
     @ApiOperation(value = "删除文章")
     @DeleteMapping(value = "/delArticle/{articleID}")
     public Result delArticle(@PathVariable String articleID) {
@@ -42,7 +53,7 @@ public class BusArticleController {
     }
 
 
-    @ApiOperation(value = "新增文章")
+    @ApiOperation(value = "新增或修改文章")
     @PostMapping(value = "/addOrEditArticle")
     public Result addOrEditArticle(@RequestBody BusArticle busArticle) {
         return busArticleService.addOrEditArticle(busArticle);
@@ -55,6 +66,11 @@ public class BusArticleController {
         return busArticleService.getArticleByArticleID(articleID);
     }
 
+    @ApiOperation(value = "批量删除文章")
+    @DeleteMapping(value = "/delArticleBatch")
+    public Result delArticleBatch(@RequestBody List<String> articleIdList) {
+        return busArticleService.delArticleBatch(articleIdList);
+    }
 
 
 }

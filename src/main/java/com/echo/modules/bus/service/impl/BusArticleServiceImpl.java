@@ -4,15 +4,19 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echo.common.utils.GenegateIDUtil;
+import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
 import com.echo.dto.ResGetArticleByArticleIDDTO;
 import com.echo.modules.bus.mapper.BusCategoryMapper;
 import com.echo.modules.bus.model.BusArticle;
 import com.echo.modules.bus.mapper.BusArticleMapper;
 import com.echo.modules.bus.model.BusCategory;
+import com.echo.modules.bus.model.BusComment;
 import com.echo.modules.bus.service.BusArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
-import static com.echo.common.constant.CommonConstant.DELETED;
-import static com.echo.common.constant.CommonConstant.ZERO;
+import static com.echo.common.constant.CommonConstant.*;
 import static com.echo.config.api.ResultCode.THE_ARTICLE_IS_NOT_EXIST;
 
 /**
@@ -53,6 +56,24 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
     }
 
     @Override
+    public Result<PageInfo<BusArticle>> getAllPageArticleList(String articleTitle, Integer pageNum, Integer pageSize) {
+        Page<BusArticle> page = new Page<>(pageNum, pageSize);
+
+        LambdaQueryWrapper<BusArticle> busArticleLambdaQueryWrapper = new LambdaQueryWrapper<BusArticle>();
+        busArticleLambdaQueryWrapper.ne(BusArticle::getArticleStatus, DELETED);
+
+        if (StringUtils.isNotEmpty(articleTitle)) {
+            busArticleLambdaQueryWrapper.like(BusArticle::getArticleTitle, articleTitle);
+        }
+
+        Page<BusArticle> busArticlePage = page (page, busArticleLambdaQueryWrapper);
+
+        PageInfo<BusArticle> busArticlePageInfo = PageInfo.restPage(busArticlePage);
+
+        return Result.success(busArticlePageInfo);
+    }
+
+    @Override
     public Result delArticle(String articleID) {
         BusArticle busArticle = busArticleMapper.selectById(articleID);
         if(ObjUtil.isEmpty(busArticle)) {
@@ -71,6 +92,7 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
         } else {
             String articleID = GenegateIDUtil.generateArticleID();
             busArticle.setId(articleID);
+            busArticle.setArticleStatus(EXIST);
             busArticle.setCreateTime(new Date());
             busArticle.setUpdateTime(new Date());
             save(busArticle);
@@ -90,5 +112,18 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
         BusCategory busCategory = busCategoryMapper.selectById(categoryId);
         result.setCategoryName(busCategory.getCategoryName());
         return Result.success(result);
+    }
+
+    @Override
+    public Result delArticleBatch(List<String> articleIdList) {
+        List<BusArticle> busArticleList = busArticleMapper.selectBatchIds(articleIdList);
+        if(CollUtil.isNotEmpty(busArticleList)) {
+            busArticleList.forEach(busArticle -> {
+                busArticle.setUpdateTime(new Date());
+                busArticle.setArticleStatus(DELETED);
+                updateById(busArticle);
+            });
+        }
+        return Result.success();
     }
 }
