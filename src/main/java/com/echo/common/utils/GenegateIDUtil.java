@@ -82,7 +82,7 @@ public class GenegateIDUtil {
     }
 
     public static void main(String[] args) {
-        String roleID = generateFLID();
+        String roleID = generateResourceID();
         System.out.println(roleID);
     }
 
