@@ -13,4 +13,19 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+
+    <select id="getArticleCountGroupByCate" resultType="com.echo.dto.GetArticleCountGroupByCateResDTO">
+        SELECT
+            bc.id AS categoryId,
+            bc.category_name AS categoryName,
+            count( ba.id ) AS articleCount
+        FROM
+            bus_category bc
+                LEFT JOIN ( SELECT id, category_id FROM bus_article WHERE article_status = 'EXIST' ) ba ON bc.id = ba.category_id
+        WHERE
+            bc.cate_status = 'EXIST'
+        GROUP BY
+            bc.id
+    </select>
+
 </mapper>
