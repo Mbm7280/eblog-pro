@@ -20,4 +20,6 @@ public class GetHomepageInfoResDTO {
 
     private List<GetArticleCountGroupByCateResDTO> articleCountResDTOList;
 
+    private List<GetArticleStatisticsResDTO> articleStatisticsList;
+
 }
