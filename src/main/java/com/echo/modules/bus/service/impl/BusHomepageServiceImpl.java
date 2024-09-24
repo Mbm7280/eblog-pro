@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.echo.config.api.Result;
 import com.echo.dto.GetArticleCountGroupByCateResDTO;
 import com.echo.dto.GetArticleStatisticsResDTO;
+import com.echo.dto.GetArticleViewListResDTO;
 import com.echo.dto.GetHomepageInfoResDTO;
 import com.echo.modules.bus.mapper.BusArticleMapper;
 import com.echo.modules.bus.mapper.BusCategoryMapper;
@@ -56,7 +57,7 @@ public class BusHomepageServiceImpl implements BusHomepageService {
         Long categoryCount = busCategoryMapper.selectCount(new LambdaQueryWrapper<BusCategory>().eq(BusCategory::getCateStatus, EXIST));
         Long commentCount = busCommentMapper.selectCount(new LambdaQueryWrapper<BusComment>().eq(BusComment::getStatus, EXIST));
         List<GetArticleStatisticsResDTO> articleStatisticsList = busArticleMapper.getArticleStatistics();
-
+        List<GetArticleViewListResDTO> articleViewList = busArticleMapper.getArticleViewList();
 
         getHomepageInfoResDTO.setArticleCount(articleCount);
         getHomepageInfoResDTO.setUserCount(userCount);
@@ -64,6 +65,7 @@ public class BusHomepageServiceImpl implements BusHomepageService {
         getHomepageInfoResDTO.setCommentCount(commentCount);
         getHomepageInfoResDTO.setArticleStatisticsList(articleStatisticsList);
         getHomepageInfoResDTO.setArticleCountResDTOList(articleCountResDTOList);
+        getHomepageInfoResDTO.setArticleViewList(articleViewList);
 
         return Result.success(getHomepageInfoResDTO);
     }

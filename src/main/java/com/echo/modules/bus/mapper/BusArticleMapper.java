@@ -1,6 +1,7 @@
 package com.echo.modules.bus.mapper;
 
 import com.echo.dto.GetArticleStatisticsResDTO;
+import com.echo.dto.GetArticleViewListResDTO;
 import com.echo.modules.bus.model.BusArticle;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -17,5 +18,7 @@ import java.util.List;
 public interface BusArticleMapper extends BaseMapper<BusArticle> {
 
     List<GetArticleStatisticsResDTO> getArticleStatistics();
+
+    List <GetArticleViewListResDTO> getArticleViewList();
 
 }

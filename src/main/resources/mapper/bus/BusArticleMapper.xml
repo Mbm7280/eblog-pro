@@ -12,6 +12,7 @@
         <result column="article_abstract" property="articleAbstract" />
         <result column="article_content" property="articleContent" />
         <result column="article_type" property="articleType" />
+        <result column="article_view" property="articleView" />
         <result column="article_status" property="articleStatus" />
         <result column="original_url" property="originalUrl" />
         <result column="create_by" property="createBy" />
@@ -30,6 +31,16 @@
             date
         ORDER BY
             date DESC
+    </select>
+
+    <select id="getArticleViewList" resultType="com.echo.dto.GetArticleViewListResDTO">
+        SELECT
+            article_title,
+            article_view
+        FROM
+            bus_article
+        WHERE
+            article_status = 'EXIST'
     </select>
 
 

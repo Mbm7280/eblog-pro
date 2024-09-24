@@ -48,6 +48,9 @@ public class BusArticle implements Serializable {
     @ApiModelProperty("文章类型 1原创 2转载 3翻译")
     private String articleType;
 
+    @ApiModelProperty("文章浏览量")
+    private String articleView;
+
     @ApiModelProperty("状态值 1公开 2私密 3草稿")
     private String articleStatus;
 
