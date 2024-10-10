@@ -3,6 +3,7 @@ package com.echo.modules.bus.controller;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetTopAndRecommendArticlesResDTO;
 import com.echo.dto.ResGetArticleByArticleIDDTO;
 import com.echo.modules.bus.model.BusArticle;
 import com.echo.modules.bus.model.BusComment;
@@ -45,7 +46,6 @@ public class BusArticleController {
         return busArticleService.getAllPageArticleList(articleTitle,pageNum,pageSize);
     }
 
-
     @ApiOperation(value = "删除文章")
     @DeleteMapping(value = "/delArticle/{articleID}")
     public Result delArticle(@PathVariable String articleID) {
@@ -71,6 +71,15 @@ public class BusArticleController {
     public Result delArticleBatch(@RequestBody List<String> articleIdList) {
         return busArticleService.delArticleBatch(articleIdList);
     }
+
+//    Front-Api
+
+    @ApiOperation(value = "用户推荐文章")
+    @GetMapping(value = "/getTopAndRecommendArticles")
+    public Result<GetTopAndRecommendArticlesResDTO> getTopAndRecommendArticles() {
+        return busArticleService.getTopAndRecommendArticles();
+    }
+
 
 
 }

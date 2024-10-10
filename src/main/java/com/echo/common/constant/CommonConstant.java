@@ -59,6 +59,10 @@ public interface CommonConstant {
 
     String EXIST = "EXIST";
 
+    String RECOMMEND = "RECOMMEND";
+
+    String TOP = "TOP";
+
 
 
 }

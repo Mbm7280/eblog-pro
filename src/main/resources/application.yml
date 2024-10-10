@@ -90,6 +90,7 @@ secure:
       - /admin/info
       - /admin/logout
       - /ums/umsRole/test
+      - /admin/busArticle/getTopAndRecommendArticles
 
 
 

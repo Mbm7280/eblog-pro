@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echo.common.utils.GenegateIDUtil;
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetTopAndRecommendArticlesResDTO;
 import com.echo.dto.ResGetArticleByArticleIDDTO;
 import com.echo.modules.bus.mapper.BusCategoryMapper;
 import com.echo.modules.bus.model.BusArticle;
@@ -125,5 +126,18 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
             });
         }
         return Result.success();
+    }
+
+
+//  Front-Api
+
+    @Override
+    public Result<GetTopAndRecommendArticlesResDTO> getTopAndRecommendArticles() {
+        List<BusArticle> recommendArticleList = busArticleMapper.selectList(new LambdaQueryWrapper<BusArticle>().eq(BusArticle::getArticleStatus, RECOMMEND));
+        BusArticle topArticle = busArticleMapper.selectOne(new LambdaQueryWrapper<BusArticle>().eq(BusArticle::getArticleStatus, TOP));
+        GetTopAndRecommendArticlesResDTO resDTO = new GetTopAndRecommendArticlesResDTO();
+        resDTO.setTopArticle(topArticle);
+        resDTO.setRecommendArticles(recommendArticleList);
+        return Result.success(resDTO);
     }
 }
