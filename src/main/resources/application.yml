@@ -91,6 +91,9 @@ secure:
       - /admin/logout
       - /ums/umsRole/test
       - /admin/busArticle/getTopAndRecommendArticles
+      - /admin/busCategory/getAllCategoriesAndCount
+      - /admin/busArticle/getPageArticlesByCategoryID
+      - /admin/busArticle/getAllPageArticles
 
 
 

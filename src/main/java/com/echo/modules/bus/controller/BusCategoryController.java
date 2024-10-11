@@ -3,6 +3,8 @@ package com.echo.modules.bus.controller;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetAllCategoriesAndCountResDTO;
+import com.echo.dto.GetPageArticlesByCategoryIDResDTO;
 import com.echo.modules.bus.model.BusCategory;
 import com.echo.modules.bus.service.BusCategoryService;
 import io.swagger.annotations.ApiOperation;
@@ -69,6 +71,14 @@ public class BusCategoryController {
     public Result delCategoryBatch(@RequestBody List<String> cateIDList) {
         return busCategoryService.delCategoryBatch(cateIDList);
     }
+
+//    Front-Api
+    @ApiOperation(value = "获取所有分类信息以及对应的文章数量")
+    @GetMapping(value = "/getAllCategoriesAndCount")
+    public Result<List<GetAllCategoriesAndCountResDTO>> getAllCategoriesAndCount() {
+        return busCategoryService.getAllCategoriesAndCount();
+    }
+
 
 
 }

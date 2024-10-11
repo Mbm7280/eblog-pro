@@ -2,6 +2,8 @@ package com.echo.modules.bus.service;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetAllCategoriesAndCountResDTO;
+import com.echo.dto.GetPageArticlesByCategoryIDResDTO;
 import com.echo.modules.bus.model.BusCategory;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,5 +36,8 @@ public interface BusCategoryService extends IService<BusCategory> {
     Result delCategory(@PathVariable String cateID);
 
     Result delCategoryBatch(@RequestBody List<String> cateIDList);
+
+    //    Front-Api
+    Result<List<GetAllCategoriesAndCountResDTO>> getAllCategoriesAndCount();
 
 }

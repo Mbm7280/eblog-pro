@@ -3,6 +3,8 @@ package com.echo.modules.bus.controller;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetAllPageArticlesResDTO;
+import com.echo.dto.GetPageArticlesByCategoryIDResDTO;
 import com.echo.dto.GetTopAndRecommendArticlesResDTO;
 import com.echo.dto.ResGetArticleByArticleIDDTO;
 import com.echo.modules.bus.model.BusArticle;
@@ -80,6 +82,20 @@ public class BusArticleController {
         return busArticleService.getTopAndRecommendArticles();
     }
 
+    @ApiOperation(value = "分页且根据分类ID获取对应的文章列表")
+    @GetMapping(value = "/getPageArticlesByCategoryID")
+    public Result<GetPageArticlesByCategoryIDResDTO> getPageArticlesByCategoryID(@RequestParam(required = true) String categoryID,
+                                                                                           @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return busArticleService.getPageArticlesByCategoryID(categoryID, pageNum, pageSize);
+    }
+
+    @ApiOperation(value = "分页获取获取所有文章")
+    @GetMapping(value = "/getAllPageArticles")
+    public Result<GetAllPageArticlesResDTO> getAllPageArticles(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return busArticleService.getAllPageArticles(pageNum,pageSize);
+    }
 
 
 }

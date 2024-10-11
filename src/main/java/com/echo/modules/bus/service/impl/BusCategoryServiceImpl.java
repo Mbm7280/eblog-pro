@@ -9,6 +9,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echo.common.utils.GenegateIDUtil;
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetAllCategoriesAndCountResDTO;
+import com.echo.dto.GetPageArticlesByCategoryIDResDTO;
+import com.echo.modules.bus.mapper.BusArticleMapper;
+import com.echo.modules.bus.model.BusArticle;
 import com.echo.modules.bus.model.BusCategory;
 import com.echo.modules.bus.mapper.BusCategoryMapper;
 import com.echo.modules.bus.service.BusCategoryService;
@@ -17,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +41,9 @@ public class BusCategoryServiceImpl extends ServiceImpl<BusCategoryMapper, BusCa
 
     @Autowired
     private BusCategoryMapper busCategoryMapper;
+
+    @Autowired
+    private BusArticleMapper busArticleMapper;
 
     @Override
     public Result<BusCategory> getCategoryByID(String categoryID) {
@@ -70,7 +78,7 @@ public class BusCategoryServiceImpl extends ServiceImpl<BusCategoryMapper, BusCa
 
         Page<BusCategory> busCategoryPage = page(page, busCategoryLambdaQueryWrapper);
 
-        PageInfo<BusCategory> busCategoryPageInfo = PageInfo.restPage(busCategoryPage);
+        PageInfo<BusCategory> busCategoryPageInfo = PageInfo.restPage(busCategoryPage,null);
 
         return Result.success(busCategoryPageInfo);
     }
@@ -115,5 +123,23 @@ public class BusCategoryServiceImpl extends ServiceImpl<BusCategoryMapper, BusCa
         return Result.success();
     }
 
+    //    Front-Api
+    @Override
+    public Result<List<GetAllCategoriesAndCountResDTO>> getAllCategoriesAndCount() {
+        List<GetAllCategoriesAndCountResDTO> resDTOList = new ArrayList<>();
+
+        List<BusCategory> busCategoryList = busCategoryMapper.selectList(new LambdaQueryWrapper<BusCategory>().ne(BusCategory::getCateStatus, DELETED));
+        if(CollUtil.isNotEmpty(busCategoryList)){
+            busCategoryList.forEach(busCategory -> {
+                GetAllCategoriesAndCountResDTO getAllCategoriesAndCountResDTO = new GetAllCategoriesAndCountResDTO();
+                Long articleCount = busArticleMapper.selectCount(new LambdaQueryWrapper<BusArticle>().eq(BusArticle::getCategoryId, busCategory.getId()).ne(BusArticle::getArticleStatus, DELETED));
+                getAllCategoriesAndCountResDTO.setCategoryID(busCategory.getId());
+                getAllCategoriesAndCountResDTO.setCategoryName(busCategory.getCategoryName());
+                getAllCategoriesAndCountResDTO.setArticleCount(articleCount);
+                resDTOList.add(getAllCategoriesAndCountResDTO);
+            });
+        }
+        return Result.success(resDTOList);
+    }
 
 }

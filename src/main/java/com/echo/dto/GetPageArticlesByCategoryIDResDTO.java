@@ -1,6 +1,5 @@
 package com.echo.dto;
 
-
 import com.echo.modules.bus.model.BusArticle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,10 +12,14 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetTopAndRecommendArticlesResDTO {
+public class GetPageArticlesByCategoryIDResDTO extends BusArticle {
 
-    private TopAndRecommendArticlesDTO topArticle;
+    private List<GetPageArticlesByCategoryIDDTO> records;
 
-    private List<TopAndRecommendArticlesDTO> recommendArticles;
+    private Integer pageNum;
+
+    private Integer pageSize;
+
+    private Long total;
 
 }

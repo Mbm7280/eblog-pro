@@ -50,7 +50,7 @@ public class BusCommentServiceImpl extends ServiceImpl<BusCommentMapper, BusComm
 
         Page<BusComment> busCommentPage = page(page, busCommentLambdaQueryWrapper);
 
-        PageInfo<BusComment> busCommentPageInfo = PageInfo.restPage(busCommentPage);
+        PageInfo<BusComment> busCommentPageInfo = PageInfo.restPage(busCommentPage,null);
 
         return Result.success(busCommentPageInfo);
     }

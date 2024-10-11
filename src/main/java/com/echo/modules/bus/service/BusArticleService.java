@@ -2,6 +2,8 @@ package com.echo.modules.bus.service;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetAllPageArticlesResDTO;
+import com.echo.dto.GetPageArticlesByCategoryIDResDTO;
 import com.echo.dto.GetTopAndRecommendArticlesResDTO;
 import com.echo.dto.ResGetArticleByArticleIDDTO;
 import com.echo.modules.bus.model.BusArticle;
@@ -35,5 +37,11 @@ public interface BusArticleService extends IService<BusArticle> {
 
 //  Front-Api
     Result<GetTopAndRecommendArticlesResDTO> getTopAndRecommendArticles();
+
+    Result<GetPageArticlesByCategoryIDResDTO> getPageArticlesByCategoryID(String categoryID, Integer pageNum, Integer pageSize);
+
+    Result<GetAllPageArticlesResDTO> getAllPageArticles(Integer pageNum, Integer pageSize);
+
+
 
 }

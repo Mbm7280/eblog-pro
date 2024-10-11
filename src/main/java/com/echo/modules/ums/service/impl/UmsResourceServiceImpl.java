@@ -50,7 +50,7 @@ public class UmsResourceServiceImpl extends ServiceImpl<UmsResourceMapper, UmsRe
 
         Page<UmsResource> umsResourcePage = page (page, umsResourceLambdaQueryWrapper);
 
-        PageInfo<UmsResource> umsResourcePageInfo = PageInfo.restPage(umsResourcePage);
+        PageInfo<UmsResource> umsResourcePageInfo = PageInfo.restPage(umsResourcePage,null);
 
         return Result.success(umsResourcePageInfo);
     }

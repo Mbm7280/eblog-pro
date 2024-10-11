@@ -50,7 +50,7 @@ public class BusFriendLinkServiceImpl extends ServiceImpl<BusFriendLinkMapper, B
 
         Page<BusFriendLink> busFriendLinkPage = page(page, busFriendLinkLambdaQueryWrapper);
 
-        PageInfo<BusFriendLink> busFriendLinkPageInfo = PageInfo.restPage(busFriendLinkPage);
+        PageInfo<BusFriendLink> busFriendLinkPageInfo = PageInfo.restPage(busFriendLinkPage,null);
 
         return Result.success(busFriendLinkPageInfo);
     }

@@ -1,15 +1,16 @@
 package com.echo.modules.bus.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echo.common.utils.GenegateIDUtil;
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
-import com.echo.dto.GetTopAndRecommendArticlesResDTO;
-import com.echo.dto.ResGetArticleByArticleIDDTO;
+import com.echo.dto.*;
 import com.echo.modules.bus.mapper.BusCategoryMapper;
 import com.echo.modules.bus.model.BusArticle;
 import com.echo.modules.bus.mapper.BusArticleMapper;
@@ -22,6 +23,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +72,7 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
 
         Page<BusArticle> busArticlePage = page (page, busArticleLambdaQueryWrapper);
 
-        PageInfo<BusArticle> busArticlePageInfo = PageInfo.restPage(busArticlePage);
+        PageInfo<BusArticle> busArticlePageInfo = PageInfo.restPage(busArticlePage,null);
 
         return Result.success(busArticlePageInfo);
     }
@@ -135,9 +138,86 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
     public Result<GetTopAndRecommendArticlesResDTO> getTopAndRecommendArticles() {
         List<BusArticle> recommendArticleList = busArticleMapper.selectList(new LambdaQueryWrapper<BusArticle>().eq(BusArticle::getArticleStatus, RECOMMEND));
         BusArticle topArticle = busArticleMapper.selectOne(new LambdaQueryWrapper<BusArticle>().eq(BusArticle::getArticleStatus, TOP));
+
+        List<TopAndRecommendArticlesDTO> recommendArticlesDTOList = new ArrayList<>();
+        TopAndRecommendArticlesDTO topArticleDTO = new TopAndRecommendArticlesDTO();
+        BeanUtils.copyProperties(topArticle,topArticleDTO);
+
+        if(CollUtil.isNotEmpty(recommendArticleList)) {
+            recommendArticleList.forEach(a -> {
+                TopAndRecommendArticlesDTO recommendArticlesDTO = new TopAndRecommendArticlesDTO();
+                BeanUtils.copyProperties(a,recommendArticlesDTO);
+                BusCategory busCategory = busCategoryMapper.selectById(a.getCategoryId());
+                recommendArticlesDTO.setCategoryName(busCategory.getCategoryName());
+                recommendArticlesDTOList.add(recommendArticlesDTO);
+            });
+        }
+
+        BusCategory busCategory = busCategoryMapper.selectById(topArticle.getCategoryId());
+        topArticleDTO.setCategoryName(busCategory.getCategoryName());
+
         GetTopAndRecommendArticlesResDTO resDTO = new GetTopAndRecommendArticlesResDTO();
-        resDTO.setTopArticle(topArticle);
-        resDTO.setRecommendArticles(recommendArticleList);
+        resDTO.setTopArticle(topArticleDTO);
+        resDTO.setRecommendArticles(recommendArticlesDTOList);
         return Result.success(resDTO);
+    }
+
+    @Override
+    public Result<GetPageArticlesByCategoryIDResDTO> getPageArticlesByCategoryID(String categoryID, Integer pageNum, Integer pageSize) {
+        GetPageArticlesByCategoryIDResDTO resDTO = new GetPageArticlesByCategoryIDResDTO();
+        List<GetPageArticlesByCategoryIDDTO> getPageArticlesByCategoryIDDTOList = new ArrayList<>();
+
+        Page<BusArticle> page = new Page<>(pageNum, pageSize);
+
+        LambdaQueryWrapper<BusCategory> busCategoryLambdaQueryWrapper = new LambdaQueryWrapper<BusCategory>();
+        busCategoryLambdaQueryWrapper.eq(BusCategory::getId,categoryID).ne(BusCategory::getCateStatus, DELETED);
+        BusCategory busCategory = busCategoryMapper.selectOne(busCategoryLambdaQueryWrapper);
+
+        LambdaQueryWrapper<BusArticle> busArticleQueryWrapper = new LambdaQueryWrapper<BusArticle>();
+        busArticleQueryWrapper.eq(BusArticle::getCategoryId,categoryID).ne(BusArticle::getArticleStatus,DELETED);
+
+        Page<BusArticle> busArticlePage = page(page,  busArticleQueryWrapper);
+        List<BusArticle> busArticlePageRecords = busArticlePage.getRecords();
+        busArticlePageRecords.stream().forEach(b -> {
+            GetPageArticlesByCategoryIDDTO getPageArticlesByCategoryIDDTO = new GetPageArticlesByCategoryIDDTO();
+            BeanUtils.copyProperties(b,getPageArticlesByCategoryIDDTO);
+            getPageArticlesByCategoryIDDTO.setCategoryName(busCategory.getCategoryName());
+            getPageArticlesByCategoryIDDTOList.add(getPageArticlesByCategoryIDDTO);
+        });
+        resDTO.setTotal(busArticlePage.getTotal());
+        resDTO.setRecords(getPageArticlesByCategoryIDDTOList);
+        resDTO.setPageNum(Convert.toInt(busArticlePage.getCurrent()));
+        resDTO.setPageSize(Convert.toInt(busArticlePage.getSize()));
+
+        return Result.success(resDTO);
+    }
+
+    @Override
+    public Result<GetAllPageArticlesResDTO> getAllPageArticles(Integer pageNum, Integer pageSize) {
+        GetAllPageArticlesResDTO getAllPageArticlesResDTO = new GetAllPageArticlesResDTO();
+
+        Page<BusArticle> page = new Page<>(pageNum, pageSize);
+
+        LambdaQueryWrapper<BusArticle> busArticleLambdaQueryWrapper = new LambdaQueryWrapper<BusArticle>();
+        busArticleLambdaQueryWrapper.ne(BusArticle::getArticleStatus, DELETED);
+
+        Page<BusArticle> busArticlePage = page (page, busArticleLambdaQueryWrapper);
+
+        List<BusArticle> records = busArticlePage.getRecords();
+        List<GetAllPageArticlesDTO> resDTOList = new ArrayList<>();
+        records.stream().forEach(r -> {
+            GetAllPageArticlesDTO  getAllPageArticlesDTO = new GetAllPageArticlesDTO();
+            BeanUtils.copyProperties(r,getAllPageArticlesDTO);
+            BusCategory busCategory = busCategoryMapper.selectById(r.getCategoryId());
+            getAllPageArticlesDTO.setCategoryName(busCategory.getCategoryName());
+            resDTOList.add(getAllPageArticlesDTO);
+        });
+
+        getAllPageArticlesResDTO.setRecords(resDTOList);
+        getAllPageArticlesResDTO.setTotal(busArticlePage.getTotal());
+        getAllPageArticlesResDTO.setPageNum(Convert.toInt(busArticlePage.getCurrent()));
+        getAllPageArticlesResDTO.setPageSize(Convert.toInt(busArticlePage.getSize()));
+
+        return Result.success(getAllPageArticlesResDTO);
     }
 }

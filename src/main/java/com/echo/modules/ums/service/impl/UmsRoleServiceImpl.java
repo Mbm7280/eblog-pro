@@ -50,7 +50,7 @@ public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> impl
 
         Page<UmsRole> umsRolePage = page(page, umsRoleLambdaQueryWrapper);
 
-        PageInfo<UmsRole> umsRolePageInfo = PageInfo.restPage(umsRolePage);
+        PageInfo<UmsRole> umsRolePageInfo = PageInfo.restPage(umsRolePage,null);
 
         return Result.success(umsRolePageInfo);
     }
