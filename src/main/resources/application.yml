@@ -94,6 +94,8 @@ secure:
       - /admin/busCategory/getAllCategoriesAndCount
       - /admin/busArticle/getPageArticlesByCategoryID
       - /admin/busArticle/getAllPageArticles
+      - /admin/busWebInfo/getWebInfo
+      - /admin/busAbout/getAboutInfo
 
 
 

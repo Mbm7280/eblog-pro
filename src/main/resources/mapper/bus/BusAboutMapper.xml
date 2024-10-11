@@ -5,6 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.echo.modules.bus.model.BusAbout">
         <id column="id" property="id" />
+        <result column="about_name" property="aboutName" />
         <result column="content" property="content" />
         <result column="create_by" property="createBy" />
         <result column="create_time" property="createTime" />

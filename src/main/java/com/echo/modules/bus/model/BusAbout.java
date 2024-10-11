@@ -24,7 +24,11 @@ public class BusAbout implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("主键")
     private String id;
+
+    @ApiModelProperty("名称")
+    private String aboutName;
 
     @ApiModelProperty("内容")
     private String content;
