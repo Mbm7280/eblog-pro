@@ -3,6 +3,7 @@ package com.echo.modules.bus.controller;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetAllFriLinksResDTO;
 import com.echo.modules.bus.model.BusFriendLink;
 import com.echo.modules.bus.service.BusFriendLinkService;
 import io.swagger.annotations.ApiOperation;
@@ -51,6 +52,14 @@ public class BusFriendLinkController {
     @DeleteMapping(value = "/delFriLinkBatch")
     public Result delFriLinkBatch(@RequestBody List<String> friLinkIDList) {
         return busFriendLinkService.delFriLinkBatch(friLinkIDList);
+    }
+
+
+//  Front-Api
+    @ApiOperation(value = "获取所有的友链")
+    @GetMapping(value = "/getAllFriLinks")
+    public Result<List<GetAllFriLinksResDTO>> getAllFriLinks() {
+        return busFriendLinkService.getAllFriLinks();
     }
 
 }

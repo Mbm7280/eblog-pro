@@ -14,4 +14,10 @@ public class GetAllPageArticlesDTO extends BusArticle {
 
     private String categoryName;
 
+    private String userID;
+
+    private String userName;
+
+    private String userIcon;
+
 }

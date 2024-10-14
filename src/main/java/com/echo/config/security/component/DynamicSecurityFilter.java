@@ -50,6 +50,7 @@ public class DynamicSecurityFilter extends AbstractSecurityInterceptor implement
         }
         //白名单请求直接放行
         PathMatcher pathMatcher = new AntPathMatcher();
+        String requestURI = request.getRequestURI();
         for (String path : ignoreUrlsConfig.getUrls()) {
             if (pathMatcher.match(path, request.getRequestURI())) {
                 fi.getChain().doFilter(fi.getRequest(), fi.getResponse());

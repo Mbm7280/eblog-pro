@@ -5,7 +5,6 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echo.common.utils.GenegateIDUtil;
 import com.echo.config.api.PageInfo;
@@ -15,15 +14,15 @@ import com.echo.modules.bus.mapper.BusCategoryMapper;
 import com.echo.modules.bus.model.BusArticle;
 import com.echo.modules.bus.mapper.BusArticleMapper;
 import com.echo.modules.bus.model.BusCategory;
-import com.echo.modules.bus.model.BusComment;
 import com.echo.modules.bus.service.BusArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.echo.modules.ums.mapper.UmsUserMapper;
+import com.echo.modules.ums.model.UmsUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +46,9 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
 
     @Autowired
     private BusCategoryMapper busCategoryMapper;
+
+    @Autowired
+    private UmsUserMapper umsUserMapper;
 
     @Override
     public Result<List<BusArticle>> getAllArticleList(String articleType) {
@@ -149,12 +151,22 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
                 BeanUtils.copyProperties(a,recommendArticlesDTO);
                 BusCategory busCategory = busCategoryMapper.selectById(a.getCategoryId());
                 recommendArticlesDTO.setCategoryName(busCategory.getCategoryName());
+
+                UmsUser umsUser = umsUserMapper.selectOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getId, a.getCreateBy()));
+                recommendArticlesDTO.setUserID(umsUser.getId());
+                recommendArticlesDTO.setUserName(umsUser.getUserName());
+                recommendArticlesDTO.setUserIcon(umsUser.getIcon());
+
                 recommendArticlesDTOList.add(recommendArticlesDTO);
             });
         }
 
         BusCategory busCategory = busCategoryMapper.selectById(topArticle.getCategoryId());
         topArticleDTO.setCategoryName(busCategory.getCategoryName());
+        UmsUser umsUser = umsUserMapper.selectOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getId, topArticle.getCreateBy()));
+        topArticleDTO.setUserID(umsUser.getId());
+        topArticleDTO.setUserName(umsUser.getUserName());
+        topArticleDTO.setUserIcon(umsUser.getIcon());
 
         GetTopAndRecommendArticlesResDTO resDTO = new GetTopAndRecommendArticlesResDTO();
         resDTO.setTopArticle(topArticleDTO);
@@ -182,6 +194,10 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
             GetPageArticlesByCategoryIDDTO getPageArticlesByCategoryIDDTO = new GetPageArticlesByCategoryIDDTO();
             BeanUtils.copyProperties(b,getPageArticlesByCategoryIDDTO);
             getPageArticlesByCategoryIDDTO.setCategoryName(busCategory.getCategoryName());
+            UmsUser umsUser = umsUserMapper.selectOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getId, b.getCreateBy()));
+            getPageArticlesByCategoryIDDTO.setUserName(umsUser.getUserName());
+            getPageArticlesByCategoryIDDTO.setUserIcon(umsUser.getIcon());
+            getPageArticlesByCategoryIDDTO.setUserID(umsUser.getId());
             getPageArticlesByCategoryIDDTOList.add(getPageArticlesByCategoryIDDTO);
         });
         resDTO.setTotal(busArticlePage.getTotal());
@@ -210,6 +226,10 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
             BeanUtils.copyProperties(r,getAllPageArticlesDTO);
             BusCategory busCategory = busCategoryMapper.selectById(r.getCategoryId());
             getAllPageArticlesDTO.setCategoryName(busCategory.getCategoryName());
+            UmsUser umsUser = umsUserMapper.selectOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getId, r.getCreateBy()));
+            getAllPageArticlesDTO.setUserName(umsUser.getUserName());
+            getAllPageArticlesDTO.setUserIcon(umsUser.getIcon());
+            getAllPageArticlesDTO.setUserID(umsUser.getId());
             resDTOList.add(getAllPageArticlesDTO);
         });
 
@@ -219,5 +239,78 @@ public class BusArticleServiceImpl extends ServiceImpl<BusArticleMapper, BusArti
         getAllPageArticlesResDTO.setPageSize(Convert.toInt(busArticlePage.getSize()));
 
         return Result.success(getAllPageArticlesResDTO);
+    }
+
+    @Override
+    public Result<GetAllPageArchivesResDTO> getAllPageArchives(Integer pageNum, Integer pageSize) {
+        GetAllPageArchivesResDTO resDTO = new GetAllPageArchivesResDTO();
+        List<GetAllPageArchivesDTO> getAllPageArchivesDTOList = new ArrayList<>();
+
+        Page<BusArticle> page = new Page<>(pageNum, pageSize);
+
+        LambdaQueryWrapper<BusArticle> busArticleLambdaQueryWrapper = new LambdaQueryWrapper<BusArticle>();
+        busArticleLambdaQueryWrapper.ne(BusArticle::getArticleStatus, DELETED);
+        busArticleLambdaQueryWrapper.orderByDesc(BusArticle::getCreateTime);
+
+        Page<BusArticle> busArticlePage = page (page, busArticleLambdaQueryWrapper);
+
+        page.getRecords().stream().forEach(r -> {
+            GetAllPageArchivesDTO getAllPageArchivesDTO = new GetAllPageArchivesDTO();
+            BeanUtils.copyProperties(r,getAllPageArchivesDTO);
+            getAllPageArchivesDTOList.add(getAllPageArchivesDTO);
+        });
+
+        resDTO.setPageNum(pageNum);
+        resDTO.setPageSize(pageSize);
+        resDTO.setTotal(page.getTotal());
+        resDTO.setRecords(getAllPageArchivesDTOList);
+
+        return Result.success(resDTO);
+    }
+
+    @Override
+    public Result<GetArticleInfoByArticleIDResDTO> getArticleInfoByArticleID(String articleID) {
+        GetArticleInfoByArticleIDResDTO resDTO = new GetArticleInfoByArticleIDResDTO();
+        GetArticleInfoByArticleIDDTO prevArticle = new GetArticleInfoByArticleIDDTO();
+        GetArticleInfoByArticleIDDTO nextArticle = new GetArticleInfoByArticleIDDTO();
+        GetArticleInfoByArticleIDDTO currentArticle = new GetArticleInfoByArticleIDDTO();
+
+        BusArticle busCurrentArticle = busArticleMapper.selectOne(new LambdaQueryWrapper<BusArticle>().ne(BusArticle::getArticleStatus, DELETED).eq(BusArticle::getId, articleID));
+        List<BusArticle> prevArtilceList = busArticleMapper.selectList(new LambdaQueryWrapper<BusArticle>().ne(BusArticle::getArticleStatus, DELETED).lt(BusArticle::getCreateTime, busCurrentArticle.getCreateTime()));
+        List<BusArticle> nextArticleList = busArticleMapper.selectList(new LambdaQueryWrapper<BusArticle>().ne(BusArticle::getArticleStatus, DELETED).gt(BusArticle::getCreateTime, busCurrentArticle.getCreateTime()));
+
+        BeanUtils.copyProperties(busCurrentArticle,currentArticle);
+        BusCategory busCurrentCategory = busCategoryMapper.selectById(currentArticle.getCategoryId());
+        currentArticle.setCategoryName(busCurrentCategory.getCategoryName());
+        UmsUser umsCurrentUser = umsUserMapper.selectOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getId, currentArticle.getCreateBy()));
+        currentArticle.setUserName(umsCurrentUser.getUserName());
+        currentArticle.setUserIcon(umsCurrentUser.getIcon());
+        currentArticle.setUserID(umsCurrentUser.getId());
+
+        if(CollUtil.isNotEmpty(prevArtilceList)) {
+            BeanUtils.copyProperties(prevArtilceList.get(ZERO),prevArticle);
+            BusCategory busCategory = busCategoryMapper.selectById(prevArticle.getCategoryId());
+            prevArticle.setCategoryName(busCategory.getCategoryName());
+            UmsUser umsUser = umsUserMapper.selectOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getId, prevArticle.getCreateBy()));
+            prevArticle.setUserName(umsUser.getUserName());
+            prevArticle.setUserIcon(umsUser.getIcon());
+            prevArticle.setUserID(umsUser.getId());
+        }
+
+        if(CollUtil.isNotEmpty(nextArticleList)) {
+            BeanUtils.copyProperties(nextArticleList.get(ZERO),nextArticle);
+            BusCategory busCategory = busCategoryMapper.selectById(nextArticle.getCategoryId());
+            nextArticle.setCategoryName(busCategory.getCategoryName());
+            UmsUser umsUser = umsUserMapper.selectOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getId, nextArticle.getCreateBy()));
+            nextArticle.setUserName(umsUser.getUserName());
+            nextArticle.setUserIcon(umsUser.getIcon());
+            nextArticle.setUserID(umsUser.getId());
+        }
+
+        resDTO.setPrevArticle(prevArticle);
+        resDTO.setCurrentArticle(currentArticle);
+        resDTO.setNextArticle(nextArticle);
+
+        return Result.success(resDTO);
     }
 }

@@ -1,5 +1,6 @@
 package com.echo.dto;
 
+import com.echo.modules.bus.model.BusAbout;
 import com.echo.modules.bus.model.BusArticle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,15 +10,7 @@ import lombok.ToString;
 @Data
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
-public class GetPageArticlesByCategoryIDDTO extends BusArticle {
+public class GetAllPageArchivesDTO extends BusArticle {
 
-    private String categoryName;
-
-    private String userID;
-
-    private String userName;
-
-    private String userIcon;
 
 }

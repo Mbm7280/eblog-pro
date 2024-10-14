@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetPageArticlesByCategoryIDDTO extends BusArticle {
+public class GetArticleInfoByArticleIDDTO extends BusArticle {
 
     private String categoryName;
 

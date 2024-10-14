@@ -3,10 +3,7 @@ package com.echo.modules.bus.controller;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
-import com.echo.dto.GetAllPageArticlesResDTO;
-import com.echo.dto.GetPageArticlesByCategoryIDResDTO;
-import com.echo.dto.GetTopAndRecommendArticlesResDTO;
-import com.echo.dto.ResGetArticleByArticleIDDTO;
+import com.echo.dto.*;
 import com.echo.modules.bus.model.BusArticle;
 import com.echo.modules.bus.model.BusComment;
 import com.echo.modules.bus.service.BusArticleService;
@@ -95,6 +92,21 @@ public class BusArticleController {
     public Result<GetAllPageArticlesResDTO> getAllPageArticles(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                                @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         return busArticleService.getAllPageArticles(pageNum,pageSize);
+    }
+
+
+    @ApiOperation(value = "分页获取获取所有文章")
+    @GetMapping(value = "/getAllPageArchives")
+    public Result<GetAllPageArchivesResDTO> getAllPageArchives(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return busArticleService.getAllPageArchives(pageNum,pageSize);
+    }
+
+
+    @ApiOperation(value = "根据文章获取文章")
+    @GetMapping(value = "/getArticleInfoByArticleID/{articleID}")
+    public Result<GetArticleInfoByArticleIDResDTO> getArticleInfoByArticleID(@PathVariable String articleID) {
+        return busArticleService.getArticleInfoByArticleID(articleID);
     }
 
 

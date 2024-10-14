@@ -15,4 +15,12 @@ public class TopAndRecommendArticlesDTO extends BusArticle {
 
     private String categoryName;
 
+    private String userID;
+
+    private String userName;
+
+    private String userIcon;
+
+
+
 }

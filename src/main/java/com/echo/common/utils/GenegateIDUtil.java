@@ -100,7 +100,7 @@ public class GenegateIDUtil {
     }
 
     public static void main(String[] args) {
-        String roleID = generateAboutID();
+        String roleID = generateFLID();
         System.out.println(roleID);
     }
 

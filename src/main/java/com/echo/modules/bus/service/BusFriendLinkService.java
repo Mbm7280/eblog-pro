@@ -2,6 +2,7 @@ package com.echo.modules.bus.service;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetAllFriLinksResDTO;
 import com.echo.modules.bus.model.BusFriendLink;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,5 +28,7 @@ public interface BusFriendLinkService extends IService<BusFriendLink> {
 
     Result delFriLinkBatch(@RequestBody List<String> friLinkIDList);
 
+//  Front-Api
+    Result<List<GetAllFriLinksResDTO>> getAllFriLinks();
 
 }

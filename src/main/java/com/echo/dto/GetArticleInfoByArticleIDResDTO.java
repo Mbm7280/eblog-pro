@@ -10,14 +10,12 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetPageArticlesByCategoryIDDTO extends BusArticle {
+public class GetArticleInfoByArticleIDResDTO {
 
-    private String categoryName;
+    private GetArticleInfoByArticleIDDTO currentArticle;
 
-    private String userID;
+    private GetArticleInfoByArticleIDDTO prevArticle;
 
-    private String userName;
-
-    private String userIcon;
+    private GetArticleInfoByArticleIDDTO nextArticle;
 
 }

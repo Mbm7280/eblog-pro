@@ -2,10 +2,7 @@ package com.echo.modules.bus.service;
 
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
-import com.echo.dto.GetAllPageArticlesResDTO;
-import com.echo.dto.GetPageArticlesByCategoryIDResDTO;
-import com.echo.dto.GetTopAndRecommendArticlesResDTO;
-import com.echo.dto.ResGetArticleByArticleIDDTO;
+import com.echo.dto.*;
 import com.echo.modules.bus.model.BusArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +39,8 @@ public interface BusArticleService extends IService<BusArticle> {
 
     Result<GetAllPageArticlesResDTO> getAllPageArticles(Integer pageNum, Integer pageSize);
 
+    Result<GetAllPageArchivesResDTO> getAllPageArchives(Integer pageNum, Integer pageSize);
 
+    Result<GetArticleInfoByArticleIDResDTO> getArticleInfoByArticleID(String articleID);
 
 }

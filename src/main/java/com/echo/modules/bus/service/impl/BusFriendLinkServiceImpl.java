@@ -1,5 +1,6 @@
 package com.echo.modules.bus.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echo.common.utils.GenegateIDUtil;
 import com.echo.config.api.PageInfo;
 import com.echo.config.api.Result;
+import com.echo.dto.GetAllFriLinksResDTO;
 import com.echo.modules.bus.model.BusFriendLink;
 import com.echo.modules.bus.mapper.BusFriendLinkMapper;
 import com.echo.modules.bus.service.BusFriendLinkService;
@@ -16,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -94,5 +97,19 @@ public class BusFriendLinkServiceImpl extends ServiceImpl<BusFriendLinkMapper, B
             });
         }
         return Result.success();
+    }
+
+//  Front-Api
+    @Override
+    public Result<List<GetAllFriLinksResDTO>> getAllFriLinks() {
+        List<GetAllFriLinksResDTO> resDTOList = new ArrayList<>();
+
+        List<BusFriendLink> busFriendLinks = busFriendLinkMapper.selectList(new LambdaQueryWrapper<BusFriendLink>().ne(BusFriendLink::getFriLinkStatus, DELETED));
+        busFriendLinks.forEach(busFriendLink -> {
+            GetAllFriLinksResDTO getAllFriLinksResDTO = new GetAllFriLinksResDTO();
+            BeanUtil.copyProperties(busFriendLink,getAllFriLinksResDTO);
+            resDTOList.add(getAllFriLinksResDTO);
+        });
+        return Result.success(resDTOList);
     }
 }

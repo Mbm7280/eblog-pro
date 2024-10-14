@@ -96,6 +96,9 @@ secure:
       - /admin/busArticle/getAllPageArticles
       - /admin/busWebInfo/getWebInfo
       - /admin/busAbout/getAboutInfo
+      - /admin/busArticle/getAllPageArchives
+      - /admin/busFriendLink/getAllFriLinks
+      - /admin/busArticle/getArticleInfoByArticleID/**
 
 
 
