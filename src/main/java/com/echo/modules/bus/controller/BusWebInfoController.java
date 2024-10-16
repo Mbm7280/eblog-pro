@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/busWebInfo")
+@RequestMapping("/api/busWebInfo")
 public class BusWebInfoController {
 
     @Autowired
     private BusWebInfoService busWebInfoService;
 
     @ApiOperation(value = "获取网站信息")
-    @GetMapping(value = "/getWebInfo")
+    @GetMapping(value = "/front/getWebInfo")
     public Result<GetWebInfoResDTO> getWebInfo() {
         return busWebInfoService.getWebInfo();
     }

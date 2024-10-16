@@ -90,15 +90,11 @@ secure:
       - /admin/info
       - /admin/logout
       - /ums/umsRole/test
-      - /admin/busArticle/getTopAndRecommendArticles
-      - /admin/busCategory/getAllCategoriesAndCount
-      - /admin/busArticle/getPageArticlesByCategoryID
-      - /admin/busArticle/getAllPageArticles
-      - /admin/busWebInfo/getWebInfo
-      - /admin/busAbout/getAboutInfo
-      - /admin/busArticle/getAllPageArchives
-      - /admin/busFriendLink/getAllFriLinks
-      - /admin/busArticle/getArticleInfoByArticleID/**
+      - /api/busArticle/front/**
+      - /api/busCategory/front/**
+      - /api/busFriendLink/front/**
+      - /api/busHomepage/front/**
+      - /api/busWebInfo/front/**
 
 
 

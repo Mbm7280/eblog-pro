@@ -21,7 +21,7 @@ import java.util.List;
  * @since 2024-09-12
  */
 @RestController
-@RequestMapping("/admin/busFriendLink")
+@RequestMapping("/api/busFriendLink")
 public class BusFriendLinkController {
 
     @Autowired
@@ -57,7 +57,7 @@ public class BusFriendLinkController {
 
 //  Front-Api
     @ApiOperation(value = "获取所有的友链")
-    @GetMapping(value = "/getAllFriLinks")
+    @GetMapping(value = "/front//getAllFriLinks")
     public Result<List<GetAllFriLinksResDTO>> getAllFriLinks() {
         return busFriendLinkService.getAllFriLinks();
     }

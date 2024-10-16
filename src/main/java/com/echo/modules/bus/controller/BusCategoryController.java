@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2024-09-12
  */
 @RestController
-@RequestMapping("/admin/busCategory")
+@RequestMapping("/api/busCategory")
 public class BusCategoryController {
 
     @Autowired
@@ -74,7 +74,7 @@ public class BusCategoryController {
 
 //    Front-Api
     @ApiOperation(value = "获取所有分类信息以及对应的文章数量")
-    @GetMapping(value = "/getAllCategoriesAndCount")
+    @GetMapping(value = "/front/getAllCategoriesAndCount")
     public Result<List<GetAllCategoriesAndCountResDTO>> getAllCategoriesAndCount() {
         return busCategoryService.getAllCategoriesAndCount();
     }

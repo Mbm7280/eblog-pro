@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/admin/busHomepage")
+@RequestMapping("/api/busHomepage")
 public class BusHomepageController {
 
     @Autowired
     private BusHomepageService busHomepageService;
 
     @ApiOperation(value = "获取主页数据信息")
-    @GetMapping(value = "/getHomepageInfo")
+    @GetMapping(value = "/front/getHomepageInfo")
     public Result<GetHomepageInfoResDTO> getHomepageInfo() {
         return busHomepageService.getHomepageInfo();
     }
